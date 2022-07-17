@@ -7,7 +7,7 @@ const Home: NextPage = () => {
   return (
     <DefaultLayout>
       <Head>
-        <title>Catat apapun yang kamu inginkan! - Lagupedia</title>
+        <title>Catat apapun yang kamu inginkan! - myNotes</title>
       </Head>
 
       <main>Hello World</main>
