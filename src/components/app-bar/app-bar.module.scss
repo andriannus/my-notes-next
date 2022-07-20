@@ -1,0 +1,15 @@
+.AppBar {
+  @apply bg-white flex items-center justify-between mobile:mb-md p-bs w-full;
+
+  height: 56px;
+
+  > {
+    :not(:last-child) {
+      @apply mr-xs;
+    }
+
+    :nth-child(2) {
+      @apply flex-grow;
+    }
+  }
+}
