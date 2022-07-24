@@ -2,6 +2,7 @@ import type { NextPage } from "next";
 import Head from "next/head";
 
 import { AppBar, AppBarBrand } from "@/components/app-bar";
+import { CreateNote } from "@/components/create-note";
 import { DefaultLayout } from "@/layouts/default";
 
 const Home: NextPage = () => {
@@ -14,6 +15,10 @@ const Home: NextPage = () => {
       <AppBar>
         <AppBarBrand>myNotes</AppBarBrand>
       </AppBar>
+
+      <main>
+        <CreateNote />
+      </main>
     </DefaultLayout>
   );
 };
