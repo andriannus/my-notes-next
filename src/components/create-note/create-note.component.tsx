@@ -1,6 +1,7 @@
 import {
+  ChangeEvent,
   FC,
-  FormEvent,
+  memo,
   PropsWithChildren,
   useCallback,
   useEffect,
@@ -16,18 +17,39 @@ import styles from "./create-note.module.scss";
 const CreateNote: FC<PropsWithChildren> = () => {
   const [isFormShown, setFormStatus] = useState(false);
 
+  const [note, setNote] = useState({
+    title: "",
+    content: "",
+  });
+
   const setFocusToTextArea = useCallback(() => {
-    const textArea = document.getElementById("TxtNote") as HTMLTextAreaElement;
+    const textArea = document.getElementById(
+      "TxtContent",
+    ) as HTMLTextAreaElement;
+
     textArea.focus();
   }, []);
 
   useEffect(() => {
-    if (isFormShown) setFocusToTextArea();
+    if (isFormShown) {
+      setFocusToTextArea();
+    } else {
+      setNote({ title: "", content: "" });
+    }
   }, [isFormShown, setFocusToTextArea]);
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>): void {
-    event.preventDefault();
-    setFormStatus(!isFormShown);
+  function handleTitleChange(event: ChangeEvent<HTMLInputElement>): void {
+    setNote({
+      ...note,
+      title: event.target.value,
+    });
+  }
+
+  function handleContentChange(event: ChangeEvent<HTMLTextAreaElement>): void {
+    setNote({
+      ...note,
+      content: event.target.value,
+    });
   }
 
   return (
@@ -42,23 +64,32 @@ const CreateNote: FC<PropsWithChildren> = () => {
       )}
 
       {isFormShown && (
-        <form onSubmit={handleSubmit}>
-          <TextField className="mb-sm" placeholder="Judul" value="" />
+        <div>
+          <TextField
+            id="TxtTitle"
+            value={note.title}
+            className="mb-sm"
+            placeholder="Judul"
+            onChange={handleTitleChange}
+          />
 
           <TextArea
-            id="TxtNote"
+            id="TxtContent"
+            value={note.content}
             className="mb-bs"
             placeholder="Buat catatan..."
-            value=""
+            onChange={handleContentChange}
           />
 
           <div className="text-right">
-            <Button type="submit">Tutup</Button>
+            <Button type="button" onClick={() => setFormStatus(!isFormShown)}>
+              Tutup
+            </Button>
           </div>
-        </form>
+        </div>
       )}
     </div>
   );
 };
 
-export default CreateNote;
+export default memo(CreateNote);
