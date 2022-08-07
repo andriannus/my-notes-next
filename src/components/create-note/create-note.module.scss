@@ -1,6 +1,6 @@
 .CreateNote {
-  @apply bg-white cursor-text font-semibold m-auto;
-  @apply max-w-screen-sm px-xs py-sm rounded-xs;
+  @apply bg-white cursor-text font-semibold max-w-screen-sm;
+  @apply mx-bs mobile:mx-auto mb-md px-xs py-sm rounded-xs;
 
   box-shadow: 0 0.5px 1px 0 rgb(60 64 67 / 30%),
     0 1px 3px 1px rgb(60 64 67 / 15%);

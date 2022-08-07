@@ -1,12 +1,4 @@
-import {
-  ChangeEvent,
-  FC,
-  memo,
-  PropsWithChildren,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
+import { ChangeEvent, FC, memo, useCallback, useEffect, useState } from "react";
 
 import { Button } from "@/components/button";
 import { TextArea } from "@/components/textarea";
@@ -15,7 +7,11 @@ import { useNote } from "@/hooks/note";
 
 import styles from "./create-note.module.scss";
 
-const CreateNote: FC<PropsWithChildren> = () => {
+interface CreateNoteProps {
+  onClose(): void;
+}
+
+const CreateNote: FC<CreateNoteProps> = ({ onClose }) => {
   const [isFormShown, setFormStatus] = useState(false);
 
   const [note, setNote] = useState({
@@ -50,6 +46,7 @@ const CreateNote: FC<PropsWithChildren> = () => {
     }
 
     setFormStatus(!isFormShown);
+    onClose();
   }
 
   function handleTitleChange(event: ChangeEvent<HTMLInputElement>): void {
@@ -67,12 +64,12 @@ const CreateNote: FC<PropsWithChildren> = () => {
   }
 
   return (
-    <div className={styles.CreateNote}>
+    <div
+      className={styles.CreateNote}
+      onClick={() => setFormStatus(!isFormShown)}
+    >
       {!isFormShown && (
-        <div
-          className={styles["CreateNote-onBoard"]}
-          onClick={() => setFormStatus(!isFormShown)}
-        >
+        <div className={styles["CreateNote-onBoard"]}>
           <span>Buat catatan...</span>
         </div>
       )}

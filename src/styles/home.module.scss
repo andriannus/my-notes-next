@@ -1,0 +1,26 @@
+.Container {
+  @media screen and (max-width: theme("screens.mobile")) {
+    @apply mb-bs mx-bs;
+  }
+}
+
+.Note {
+  @apply bg-clip-padding;
+
+  padding-left: 16px;
+
+  & > div {
+    @apply border border-gray-300 bg-white mb-bs px-bs py-sm;
+    @apply rounded-xs transition duration-300;
+
+    &:hover {
+      @apply shadow-md;
+    }
+  }
+}
+
+.Notes {
+  @apply flex w-auto;
+
+  margin-left: -16px;
+}
