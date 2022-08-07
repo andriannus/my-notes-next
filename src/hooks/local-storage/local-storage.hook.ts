@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useRef } from "react";
 
 import { LocalStorageHook } from "./local-storage.model";
 
@@ -25,5 +25,13 @@ export default function useLocalStorage(): LocalStorageHook {
     return !!localStorage.getItem(key);
   }, []);
 
-  return { get, isExist, remove, reset, set };
+  const { current: ls } = useRef({
+    get,
+    set,
+    remove,
+    reset,
+    isExist,
+  });
+
+  return ls;
 }
