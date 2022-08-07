@@ -11,6 +11,7 @@ import {
 import { Button } from "@/components/button";
 import { TextArea } from "@/components/textarea";
 import { TextField } from "@/components/text-field";
+import { useNote } from "@/hooks/note";
 
 import styles from "./create-note.module.scss";
 
@@ -37,6 +38,19 @@ const CreateNote: FC<PropsWithChildren> = () => {
       setNote({ title: "", content: "" });
     }
   }, [isFormShown, setFocusToTextArea]);
+
+  const { storeNote } = useNote();
+
+  function handleButtonClick(): void {
+    const hasContentOrTitle = !!note.content || !!note.title;
+
+    if (hasContentOrTitle) {
+      storeNote(note);
+      setNote({ content: "", title: "" });
+    }
+
+    setFormStatus(!isFormShown);
+  }
 
   function handleTitleChange(event: ChangeEvent<HTMLInputElement>): void {
     setNote({
@@ -82,7 +96,7 @@ const CreateNote: FC<PropsWithChildren> = () => {
           />
 
           <div className="text-right">
-            <Button type="button" onClick={() => setFormStatus(!isFormShown)}>
+            <Button type="button" onClick={handleButtonClick}>
               Tutup
             </Button>
           </div>
