@@ -45,8 +45,11 @@ const Home: NextPage = () => {
             {notes.map((note, index) => {
               return (
                 <div key={index}>
-                  <p>{note.title}</p>
-                  <span>{note.content}</span>
+                  {note.title && (
+                    <p className={styles["Note-title"]}>{note.title}</p>
+                  )}
+
+                  <span className={styles["Note-content"]}>{note.content}</span>
                 </div>
               );
             })}

@@ -1,5 +1,5 @@
 .Container {
-  @media screen and (max-width: theme("screens.mobile")) {
+  @media screen and (max-width: theme("screens.md")) {
     @apply mb-bs mx-bs;
   }
 }
@@ -16,6 +16,14 @@
     &:hover {
       @apply shadow-md;
     }
+  }
+
+  &-title {
+    @apply font-semibold mb-2xs text-base;
+  }
+
+  &-content {
+    @apply text-sm;
   }
 }
 
