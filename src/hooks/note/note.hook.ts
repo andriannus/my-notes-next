@@ -34,7 +34,7 @@ export default function useNote(): NoteHook {
 
     const payload: INote = {
       ...note,
-      id: nanoid(),
+      id: nanoid(10),
       archived: false,
       createdAt: transformToISOFormat(new Date()),
     };
