@@ -1,6 +1,6 @@
 .CreateNote {
   @apply bg-white cursor-text font-semibold max-w-screen-sm;
-  @apply mx-auto mb-md px-xs py-sm rounded-xs;
+  @apply mx-auto mb-md rounded-xs;
 
   box-shadow: 0 0.5px 1px 0 rgb(60 64 67 / 30%),
     0 1px 3px 1px rgb(60 64 67 / 15%);
@@ -10,6 +10,6 @@
   }
 
   &-onBoard {
-    @apply text-base text-gray-400;
+    @apply px-xs py-sm text-base text-gray-400;
   }
 }

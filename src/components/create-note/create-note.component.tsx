@@ -64,18 +64,18 @@ const CreateNote: FC<CreateNoteProps> = ({ onClose }) => {
   }
 
   return (
-    <div
-      className={styles.CreateNote}
-      onClick={() => setFormStatus(!isFormShown)}
-    >
+    <div className={styles.CreateNote}>
       {!isFormShown && (
-        <div className={styles["CreateNote-onBoard"]}>
+        <div
+          className={styles["CreateNote-onBoard"]}
+          onClick={() => setFormStatus(!isFormShown)}
+        >
           <span>Buat catatan...</span>
         </div>
       )}
 
       {isFormShown && (
-        <div>
+        <div className="px-xs py-sm">
           <TextField
             id="TxtTitle"
             value={note.title}

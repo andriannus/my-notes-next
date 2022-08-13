@@ -5,25 +5,55 @@
 }
 
 .Note {
-  @apply bg-clip-padding;
+  @apply border border-gray-300 bg-white mb-bs;
+  @apply rounded-xs transition duration-300;
 
-  padding-left: 16px;
-
-  & > div {
-    @apply border border-gray-300 bg-white mb-bs px-bs py-sm;
-    @apply rounded-xs transition duration-300;
-
-    &:hover {
-      @apply shadow-md;
+  &:hover {
+    > .Note-actions {
+      @media screen and (min-width: theme("screens.lg")) {
+        @apply opacity-100 visible;
+      }
     }
   }
 
+  &-column {
+    @apply bg-clip-padding;
+
+    padding-left: 16px;
+  }
+
   &-title {
-    @apply font-semibold mb-2xs text-base;
+    @apply font-semibold text-base px-bs pb-xs pt-sm;
   }
 
   &-content {
-    @apply text-sm;
+    @apply text-sm px-bs py-xs;
+  }
+
+  &-actions {
+    @apply flex;
+
+    @media screen and (min-width: theme("screens.lg")) {
+      @apply invisible opacity-0 transition-all duration-300;
+    }
+  }
+
+  &-action {
+    @apply font-semibold text-gray-500 px-bs py-xs w-full text-xs transition duration-300;
+
+    -webkit-tap-highlight-color: transparent;
+
+    &:first-child {
+      @apply rounded-bl-xs;
+    }
+
+    &:last-child {
+      @apply rounded-br-xs;
+    }
+
+    &:hover {
+      @apply bg-gray-200;
+    }
   }
 }
 
