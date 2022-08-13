@@ -7,6 +7,9 @@ export interface INote {
 }
 
 export interface NoteHook {
+  archiveNote(noteId: string): void;
+  deleteNote(noteId: string): void;
+  getNote(noteId: string): INote | null;
   getNotes(): INote[];
   storeNote(note: Pick<INote, "content" | "title">): void;
 }
