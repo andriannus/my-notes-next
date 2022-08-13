@@ -5,13 +5,13 @@ import Masonry from "react-masonry-css";
 
 import { AppBar, AppBarBrand } from "@/components/app-bar";
 import { CreateNote } from "@/components/create-note";
-import { DefaultLayout } from "@/layouts/default";
 import { INote, useNote } from "@/hooks/note";
+import { DefaultLayout } from "@/layouts/default";
 
 import styles from "@/styles/home.module.scss";
 
 const Home: NextPage = () => {
-  const { archiveNote, getNotes } = useNote();
+  const { archiveNote, deleteNote, getNotes } = useNote();
 
   const [notes, setNotes] = useState([] as INote[]);
 
@@ -33,6 +33,14 @@ const Home: NextPage = () => {
       handleGetNotes();
     },
     [archiveNote, handleGetNotes],
+  );
+
+  const handleDeleteNote = useCallback(
+    (noteId: string) => {
+      deleteNote(noteId);
+      handleGetNotes();
+    },
+    [deleteNote, handleGetNotes],
   );
 
   return (
@@ -74,13 +82,22 @@ const Home: NextPage = () => {
 
                     <div className={styles["Note-actions"]}>
                       <button
+                        id="ButtonArchive"
                         className={styles["Note-action"]}
+                        type="button"
                         onClick={() => handleArchiveNote(unarchivedNote.id)}
                       >
                         Arsipkan
                       </button>
 
-                      <button className={styles["Note-action"]}>Hapus</button>
+                      <button
+                        id="ButtonDelete"
+                        className={styles["Note-action"]}
+                        type="button"
+                        onClick={() => handleDeleteNote(unarchivedNote.id)}
+                      >
+                        Hapus
+                      </button>
                     </div>
                   </div>
                 );
