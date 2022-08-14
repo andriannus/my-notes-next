@@ -1,6 +1,7 @@
 import { ChangeEvent, FC, memo, useCallback, useEffect, useState } from "react";
 
 import { Button } from "@/components/button";
+import { SuccessToast } from "@/components/swal";
 import { TextArea } from "@/components/textarea";
 import { TextField } from "@/components/text-field";
 import { useNote } from "@/hooks/note";
@@ -43,6 +44,7 @@ const CreateNote: FC<CreateNoteProps> = ({ onClose }) => {
     if (hasContentOrTitle) {
       storeNote(note);
       setNote({ content: "", title: "" });
+      SuccessToast("Catatan berhasil dibuat");
     }
 
     setFormStatus(!isFormShown);

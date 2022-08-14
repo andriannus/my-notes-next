@@ -5,6 +5,7 @@ import Masonry from "react-masonry-css";
 
 import { AppBar, AppBarBrand } from "@/components/app-bar";
 import { CreateNote } from "@/components/create-note";
+import { DeleteNoteDialog, SuccessToast } from "@/components/swal";
 import { INote, useNote } from "@/hooks/note";
 import { DefaultLayout } from "@/layouts/default";
 
@@ -30,15 +31,21 @@ const Home: NextPage = () => {
   const handleArchiveNote = useCallback(
     (noteId: string) => {
       archiveNote(noteId);
+      SuccessToast("Catatan berhasil diarsipkan");
       handleGetNotes();
     },
     [archiveNote, handleGetNotes],
   );
 
   const handleDeleteNote = useCallback(
-    (noteId: string) => {
-      deleteNote(noteId);
-      handleGetNotes();
+    async (noteId: string) => {
+      const result = await DeleteNoteDialog();
+
+      if (result.isConfirmed) {
+        deleteNote(noteId);
+        SuccessToast("Catatan berhasil dihapus");
+        handleGetNotes();
+      }
     },
     [deleteNote, handleGetNotes],
   );
