@@ -1,4 +1,11 @@
-import { ChangeEventHandler, FC, HTMLInputTypeAttribute } from "react";
+import {
+  ChangeEvent,
+  ChangeEventHandler,
+  FC,
+  HTMLInputTypeAttribute,
+  useCallback,
+  useMemo,
+} from "react";
 
 import styles from "./text-field.module.scss";
 
@@ -6,6 +13,7 @@ interface TextFieldProps {
   autoComplete: string;
   autoCapitalize: string;
   className: string;
+  counter: number;
   disabled: boolean;
   id: string;
   name: string;
@@ -20,6 +28,7 @@ const TextField: FC<Partial<TextFieldProps>> = ({
   autoCapitalize = "",
   autoComplete = "",
   className = "",
+  counter = 0,
   disabled = false,
   id = "",
   name = "",
@@ -29,9 +38,21 @@ const TextField: FC<Partial<TextFieldProps>> = ({
   type = "text",
   value = "",
 }) => {
+  const valueLength = useMemo(() => {
+    return value.length;
+  }, [value]);
+
+  const handleOnChange = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      onChange(event);
+    },
+    [onChange],
+  );
+
   return (
     <div className={className}>
       <input
+        {...(!!counter && { maxLength: counter })}
         id={id}
         autoCapitalize={autoCapitalize}
         autoComplete={autoComplete}
@@ -43,8 +64,16 @@ const TextField: FC<Partial<TextFieldProps>> = ({
         title={placeholder}
         type={type}
         value={value}
-        onChange={onChange}
+        onChange={handleOnChange}
       />
+
+      {!!counter && (
+        <div className={styles["TextField-counter"]}>
+          <span>
+            {valueLength} / {counter}
+          </span>
+        </div>
+      )}
     </div>
   );
 };
