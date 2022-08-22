@@ -82,6 +82,7 @@ const CreateNote: FC<CreateNoteProps> = ({ onClose }) => {
             id="TxtTitle"
             value={note.title}
             className="mb-sm"
+            counter={50}
             placeholder="Judul"
             onChange={handleTitleChange}
           />
