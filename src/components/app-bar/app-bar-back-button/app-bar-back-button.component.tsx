@@ -1,6 +1,6 @@
-import { FC, useMemo } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { FC, useMemo } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import styles from "./app-bar-back-button.module.scss";
@@ -23,15 +23,15 @@ const AppBarBackButton: FC<Partial<AppBarBackButtonProps>> = ({
   return (
     <>
       {hasURL && (
-        <Link
-          id="BtnAppBarBack"
-          aria-label="Back"
-          className={styles["AppBar-backButton"]}
-          href={href}
-          replace={replace}
-          role="button"
-        >
-          <FontAwesomeIcon icon="arrow-left" />
+        <Link href={href} replace={replace}>
+          <a
+            id="BtnAppBarBack"
+            aria-label="Back"
+            className={styles["AppBar-backButton"]}
+            role="button"
+          >
+            <FontAwesomeIcon icon="arrow-left" />
+          </a>
         </Link>
       )}
 
