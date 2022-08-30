@@ -1,72 +1,98 @@
 import { nanoid } from "nanoid";
-import { useCallback } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { INote, NoteHook } from "./note.model";
 
-import { useLocalStorage } from "@/hooks/local-storage";
+import { useCookie } from "@/hooks/cookie";
 import { MYN_NOTES } from "@/constants/storage";
 import { transformToISOFormat } from "@/utils/date";
 
 export default function useNote(): NoteHook {
-  const ls = useLocalStorage();
+  const cookie = useCookie();
 
   const getNotes = useCallback(() => {
-    if (!ls.isExist(MYN_NOTES)) return [];
+    const tempNotes = cookie.get<INote[]>(MYN_NOTES);
+    return tempNotes ?? [];
+  }, [cookie]);
 
-    const notes = ls.get<INote[]>(MYN_NOTES) as INote[];
-    return notes;
-  }, [ls]);
+  const [notes, setNotes] = useState(getNotes());
+
+  const archivedNotes = useMemo(() => {
+    return notes.filter((note) => note.archived);
+  }, [notes]);
+
+  const notArchivedNotes = useMemo(() => {
+    return notes.filter((note) => !note.archived);
+  }, [notes]);
+
+  useEffect(() => {
+    notes && cookie.set(MYN_NOTES, notes);
+  }, [cookie, notes]);
 
   const getNote = useCallback(
     (noteId: string) => {
-      if (!ls.isExist(MYN_NOTES)) return null;
+      if (!cookie.isExist(MYN_NOTES)) return null;
 
-      const notes = getNotes();
-      const selectedNote = notes.find((note) => note.id === noteId) ?? null;
+      const tempNotes = getNotes();
+      const selectedNote = tempNotes.find((note) => note.id === noteId) ?? null;
 
       return selectedNote;
     },
-    [getNotes, ls],
+    [getNotes, cookie],
   );
 
-  function storeNote(note: Pick<INote, "content" | "title">): void {
-    const notes = getNotes();
+  const storeNote = useCallback(
+    (note: Pick<INote, "content" | "title">) => {
+      const tempNotes = getNotes();
 
-    const payload: INote = {
-      ...note,
-      id: nanoid(10),
-      archived: false,
-      createdAt: transformToISOFormat(new Date()),
-    };
+      const payload: INote = {
+        ...note,
+        id: nanoid(10),
+        archived: false,
+        createdAt: transformToISOFormat(new Date()),
+      };
 
-    if (Array.isArray(notes)) {
-      notes.push(payload);
-      ls.set(MYN_NOTES, notes);
-    } else {
-      ls.set(MYN_NOTES, [payload]);
-    }
-  }
+      if (Array.isArray(tempNotes)) {
+        tempNotes.push(payload);
+        setNotes(tempNotes);
+      } else {
+        setNotes([payload]);
+      }
+    },
+    [getNotes],
+  );
 
   const deleteNote = useCallback(
     (noteId: string) => {
-      const notes = getNotes();
-      const selectedNoteIdx = notes.findIndex((note) => note.id === noteId);
+      const tempNotes = getNotes();
+      const selectedNoteIdx = tempNotes.findIndex((note) => note.id === noteId);
 
-      notes.splice(selectedNoteIdx, 1);
-      ls.set(MYN_NOTES, notes);
+      tempNotes.splice(selectedNoteIdx, 1);
+      setNotes(tempNotes);
     },
-    [getNotes, ls],
+    [getNotes],
   );
 
   const archiveNote = useCallback(
     (noteId: string) => {
-      const notes = getNotes();
-      const selectedNoteIdx = notes.findIndex((note) => note.id === noteId);
+      const tempNotes = getNotes();
+      const selectedNoteIdx = tempNotes.findIndex((note) => note.id === noteId);
 
-      notes[selectedNoteIdx].archived = true;
-      ls.set(MYN_NOTES, notes);
+      tempNotes[selectedNoteIdx].archived = true;
+      setNotes(tempNotes);
     },
-    [getNotes, ls],
+    [getNotes],
+  );
+
+  const unarchiveNote = useCallback(
+    (noteId: string) => {
+      const tempNotes = getNotes();
+      const selectedNoteIdx = tempNotes.findIndex((note) => note.id === noteId);
+
+      tempNotes[selectedNoteIdx].archived = false;
+      setNotes(tempNotes);
+    },
+    [getNotes],
   );
 
   return {
@@ -75,5 +101,9 @@ export default function useNote(): NoteHook {
     getNote,
     getNotes,
     storeNote,
+    unarchiveNote,
+    notes,
+    archivedNotes,
+    notArchivedNotes,
   };
 }
