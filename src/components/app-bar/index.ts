@@ -1,3 +1,4 @@
+export * from "./app-bar-actions";
 export * from "./app-bar-back-button";
 export * from "./app-bar-brand";
 export * from "./app-bar-title";

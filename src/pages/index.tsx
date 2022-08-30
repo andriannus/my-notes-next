@@ -12,9 +12,7 @@ const Home: NextPage = () => {
   const { archiveNote, deleteNote, notArchivedNotes, storeNote } = useNote();
 
   const handleNoteStore = useCallback(
-    (note: Pick<INote, "content" | "title">) => {
-      storeNote(note);
-    },
+    (note: Pick<INote, "content" | "title">) => storeNote(note),
     [storeNote],
   );
 
