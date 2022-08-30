@@ -4,15 +4,15 @@ import { Button } from "@/components/button";
 import { SuccessToast } from "@/components/swal";
 import { TextArea } from "@/components/textarea";
 import { TextField } from "@/components/text-field";
-import { useNote } from "@/hooks/note";
+import { INote } from "@/hooks/note";
 
 import styles from "./create-note.module.scss";
 
 interface CreateNoteProps {
-  onClose(): void;
+  onClose(note: Pick<INote, "content" | "title">): void;
 }
 
-const CreateNote: FC<CreateNoteProps> = ({ onClose }) => {
+const CreateNote: FC<CreateNoteProps> = ({ onClose = () => {} }) => {
   const [isFormShown, setFormStatus] = useState(false);
 
   const [note, setNote] = useState({
@@ -36,19 +36,16 @@ const CreateNote: FC<CreateNoteProps> = ({ onClose }) => {
     }
   }, [isFormShown, setFocusToTextArea]);
 
-  const { storeNote } = useNote();
-
   function handleButtonClick(): void {
     const hasContentOrTitle = !!note.content || !!note.title;
 
     if (hasContentOrTitle) {
-      storeNote(note);
+      onClose(note);
       setNote({ content: "", title: "" });
       SuccessToast("Catatan berhasil dibuat");
     }
 
     setFormStatus(!isFormShown);
-    onClose();
   }
 
   function handleTitleChange(event: ChangeEvent<HTMLInputElement>): void {
