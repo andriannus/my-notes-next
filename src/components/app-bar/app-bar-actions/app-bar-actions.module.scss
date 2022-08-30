@@ -1,0 +1,11 @@
+.AppBarActions {
+  @apply flex justify-end;
+
+  &-button {
+    @apply px-xs py-2xs;
+
+    &:first-child {
+      @apply mr-xs;
+    }
+  }
+}
