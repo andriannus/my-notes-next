@@ -1,107 +1,96 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback } from "react";
 import Masonry from "react-masonry-css";
 
-import { AppBar, AppBarBrand } from "@/components/app-bar";
+import { AppBar, AppBarActions, AppBarBrand } from "@/components/app-bar";
 import { CreateNote } from "@/components/create-note";
 import { DeleteNoteDialog, SuccessToast } from "@/components/swal";
 import { INote, useNote } from "@/hooks/note";
-import { DefaultLayout } from "@/layouts/default";
-
-import styles from "@/styles/home.module.scss";
 
 const Home: NextPage = () => {
-  const { archiveNote, deleteNote, getNotes } = useNote();
+  const { archiveNote, deleteNote, notArchivedNotes, storeNote } = useNote();
 
-  const [notes, setNotes] = useState([] as INote[]);
+  const handleNoteStore = useCallback(
+    (note: Pick<INote, "content" | "title">) => {
+      storeNote(note);
+    },
+    [storeNote],
+  );
 
-  const unarchivedNotes = useMemo(() => {
-    return notes.filter((note) => !note.archived);
-  }, [notes]);
-
-  const handleGetNotes = useCallback(() => {
-    setNotes(getNotes());
-  }, [getNotes]);
-
-  useEffect(() => {
-    handleGetNotes();
-  }, [handleGetNotes]);
-
-  const handleArchiveNote = useCallback(
+  const handleNoteArchive = useCallback(
     (noteId: string) => {
       archiveNote(noteId);
       SuccessToast("Catatan berhasil diarsipkan");
-      handleGetNotes();
     },
-    [archiveNote, handleGetNotes],
+    [archiveNote],
   );
 
-  const handleDeleteNote = useCallback(
+  const handleNoteDelete = useCallback(
     async (noteId: string) => {
       const result = await DeleteNoteDialog();
 
       if (result.isConfirmed) {
         deleteNote(noteId);
         SuccessToast("Catatan berhasil dihapus");
-        handleGetNotes();
       }
     },
-    [deleteNote, handleGetNotes],
+    [deleteNote],
   );
 
   return (
-    <DefaultLayout>
+    <>
       <Head>
         <title>Catat apapun yang kamu inginkan! - myNotes</title>
       </Head>
 
       <AppBar>
         <AppBarBrand>myNotes</AppBarBrand>
+        <AppBarActions />
       </AppBar>
 
       <main>
-        <CreateNote onClose={handleGetNotes} />
+        <CreateNote onClose={handleNoteStore} />
 
-        <div className={styles.Container}>
-          {unarchivedNotes.length < 1 ? (
+        <div className="Container">
+          {notArchivedNotes.length < 1 ? (
             <p className="text-center text-gray-500">
               Kamu belum membuat catatan. Yuk, buat sekarang.
             </p>
           ) : (
             <Masonry
               breakpointCols={{ default: 3, 480: 1 }}
-              className={styles.Notes}
-              columnClassName={styles["Note-column"]}
+              className="Notes"
+              columnClassName="Note-column"
             >
-              {unarchivedNotes.map((unarchivedNote, index) => {
+              {notArchivedNotes.map((notArchivedNote, index) => {
                 return (
-                  <div key={index} className={styles.Note}>
-                    {unarchivedNote.title && (
-                      <div className={styles["Note-title"]}>
-                        <p>{unarchivedNote.title}</p>
+                  <div key={index} className="Note">
+                    {notArchivedNote.title && (
+                      <div className="Note-title">
+                        <p>{notArchivedNote.title}</p>
                       </div>
                     )}
 
-                    <div className={styles["Note-content"]}>
-                      <span>{unarchivedNote.content}</span>
+                    <div className="Note-content">
+                      <span>{notArchivedNote.content}</span>
                     </div>
 
-                    <div className={styles["Note-actions"]}>
+                    <div className="Note-actions">
                       <button
                         id="ButtonArchive"
-                        className={styles["Note-action"]}
+                        className="Note-action"
                         type="button"
-                        onClick={() => handleArchiveNote(unarchivedNote.id)}
+                        onClick={() => handleNoteArchive(notArchivedNote.id)}
                       >
                         Arsipkan
                       </button>
 
                       <button
                         id="ButtonDelete"
-                        className={styles["Note-action"]}
+                        className="Note-action"
                         type="button"
-                        onClick={() => handleDeleteNote(unarchivedNote.id)}
+                        onClick={() => handleNoteDelete(notArchivedNote.id)}
                       >
                         Hapus
                       </button>
@@ -113,7 +102,7 @@ const Home: NextPage = () => {
           )}
         </div>
       </main>
-    </DefaultLayout>
+    </>
   );
 };
 
