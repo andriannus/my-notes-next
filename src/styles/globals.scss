@@ -2,4 +2,69 @@
 @tailwind components;
 @tailwind utilities;
 
+.Container {
+  @media screen and (max-width: theme("screens.md")) {
+    @apply mb-bs mx-bs;
+  }
+}
+
+.Note {
+  @apply border border-gray-300 bg-white mb-bs;
+  @apply rounded-xs transition duration-300;
+
+  &:hover {
+    > .Note-actions {
+      @media screen and (min-width: theme("screens.lg")) {
+        @apply opacity-100 visible;
+      }
+    }
+  }
+
+  &-column {
+    @apply bg-clip-padding;
+
+    padding-left: 16px;
+  }
+
+  &-title {
+    @apply font-semibold text-base px-bs pb-xs pt-sm;
+  }
+
+  &-content {
+    @apply text-sm px-bs py-xs;
+  }
+
+  &-actions {
+    @apply flex;
+
+    @media screen and (min-width: theme("screens.lg")) {
+      @apply invisible opacity-0 transition-all duration-300;
+    }
+  }
+
+  &-action {
+    @apply font-semibold text-gray-500 px-bs py-xs w-full text-xs transition duration-300;
+
+    -webkit-tap-highlight-color: transparent;
+
+    &:first-child {
+      @apply rounded-bl-xs;
+    }
+
+    &:last-child {
+      @apply rounded-br-xs;
+    }
+
+    &:hover {
+      @apply bg-gray-200;
+    }
+  }
+}
+
+.Notes {
+  @apply flex w-auto;
+
+  margin-left: -16px;
+}
+
 @import "sweetalert2/src/sweetalert2";
