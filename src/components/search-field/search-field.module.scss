@@ -1,0 +1,23 @@
+.Search {
+  @apply bg-white flex mb-md p-xs rounded-xs shadow-sm w-full;
+
+  :first-child {
+    @apply mr-xs;
+  }
+
+  &-field {
+    width: calc(100% - 40px);
+  }
+
+  &-icon {
+    @apply h-bs p-2xs text-ruby-500 w-bs;
+  }
+
+  &-input {
+    @apply bg-transparent outline-none text-sm leading-5 w-full;
+
+    &::placeholder {
+      @apply text-gray-700;
+    }
+  }
+}
