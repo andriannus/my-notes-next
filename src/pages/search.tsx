@@ -2,9 +2,9 @@ import type { NextPage } from "next";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import Masonry from "react-masonry-css";
 
 import { AppBar, AppBarBackButton, AppBarTitle } from "@/components/app-bar";
+import { Masonry } from "@/components/masonry";
 import { SearchField } from "@/components/search-field";
 import { DeleteNoteDialog, SuccessToast } from "@/components/swal";
 import { INote, useNote } from "@/hooks/note";
@@ -93,11 +93,7 @@ const Search: NextPage = () => {
                 Catatan yang kamu cari tidak ditemukan.
               </p>
             ) : (
-              <Masonry
-                breakpointCols={{ default: 3, 480: 1 }}
-                className="Notes"
-                columnClassName="Note-column"
-              >
+              <Masonry>
                 {notes.map((note, index) => {
                   return (
                     <div key={index} className="Note">

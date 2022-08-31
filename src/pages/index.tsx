@@ -2,10 +2,10 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import dynamic from "next/dynamic";
 import { useCallback } from "react";
-import Masonry from "react-masonry-css";
 
 import { AppBar, AppBarActions, AppBarBrand } from "@/components/app-bar";
 import { CreateNote } from "@/components/create-note";
+import { Masonry } from "@/components/masonry";
 import { DeleteNoteDialog, SuccessToast } from "@/components/swal";
 import { INote, useNote } from "@/hooks/note";
 
@@ -63,11 +63,7 @@ const Home: NextPage = () => {
                 Kamu belum membuat catatan. Yuk, buat sekarang.
               </p>
             ) : (
-              <Masonry
-                breakpointCols={{ default: 3, 480: 1 }}
-                className="Notes"
-                columnClassName="Note-column"
-              >
+              <Masonry>
                 {notArchivedNotes.map((notArchivedNote, index) => {
                   return (
                     <div key={index} className="Note">

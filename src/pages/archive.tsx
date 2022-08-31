@@ -2,9 +2,9 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import dynamic from "next/dynamic";
 import { useCallback } from "react";
-import Masonry from "react-masonry-css";
 
 import { AppBar, AppBarBackButton, AppBarTitle } from "@/components/app-bar";
+import { Masonry } from "@/components/masonry";
 import { DeleteNoteDialog, SuccessToast } from "@/components/swal";
 import { useNote } from "@/hooks/note";
 
@@ -55,11 +55,7 @@ const Archive: NextPage = () => {
                 Catatan yang kamu arsipkan muncul di sini.
               </p>
             ) : (
-              <Masonry
-                breakpointCols={{ default: 3, 480: 1 }}
-                className="Notes"
-                columnClassName="Note-column"
-              >
+              <Masonry>
                 {archivedNotes.map((archivedNote, index) => {
                   return (
                     <div key={index} className="Note">
