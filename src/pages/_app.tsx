@@ -10,20 +10,11 @@ import {
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import "@/styles/globals.scss";
 
-const DefaultLayout = dynamic(
-  () => import("@/layouts/default/default.component"),
-  { ssr: false },
-);
-
 config.autoAddCss = false;
 library.add(faArchive, faArrowLeft, faSearch);
 
 function MyApp({ Component, pageProps }: AppProps): JSX.Element {
-  return (
-    <DefaultLayout>
-      <Component {...pageProps} />
-    </DefaultLayout>
-  );
+  return <Component {...pageProps} />;
 }
 
 export default MyApp;
