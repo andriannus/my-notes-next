@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { FC } from "react";
+import { FC, memo } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import styles from "./app-bar-actions.module.scss";
@@ -32,4 +32,4 @@ const AppBarActions: FC<Record<string, unknown>> = () => {
   );
 };
 
-export default AppBarActions;
+export default memo(AppBarActions);

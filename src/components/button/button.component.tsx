@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import Link from "next/link";
-import { FC, MouseEventHandler, PropsWithChildren, useMemo } from "react";
+import { FC, memo, MouseEventHandler, PropsWithChildren, useMemo } from "react";
 
 import styles from "./button.module.scss";
 
@@ -66,4 +66,4 @@ const Button: FC<PropsWithChildren<Partial<ButtonProps>>> = ({
   );
 };
 
-export default Button;
+export default memo(Button);

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { FC, useMemo } from "react";
+import { FC, memo, useMemo } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import styles from "./app-bar-back-button.module.scss";
@@ -50,4 +50,4 @@ const AppBarBackButton: FC<Partial<AppBarBackButtonProps>> = ({
   );
 };
 
-export default AppBarBackButton;
+export default memo(AppBarBackButton);
