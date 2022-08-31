@@ -95,15 +95,28 @@ export default function useNote(): NoteHook {
     [getNotes],
   );
 
+  const searchNote = useCallback(
+    (title: string) => {
+      const tempNotes = getNotes();
+      const searchedNotes = tempNotes.filter((note) => {
+        return note.title.toLowerCase().includes(title.toLowerCase());
+      });
+
+      return searchedNotes;
+    },
+    [getNotes],
+  );
+
   return {
     archiveNote,
+    archivedNotes,
     deleteNote,
     getNote,
     getNotes,
+    notArchivedNotes,
+    notes,
+    searchNote,
     storeNote,
     unarchiveNote,
-    notes,
-    archivedNotes,
-    notArchivedNotes,
   };
 }

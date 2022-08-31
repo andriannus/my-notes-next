@@ -11,6 +11,7 @@ export interface NoteHook {
   deleteNote(noteId: string): void;
   getNote(noteId: string): INote | null;
   getNotes(): INote[];
+  searchNote(title: string): INote[];
   storeNote(note: Pick<INote, "content" | "title">): void;
   unarchiveNote(noteId: string): void;
   notes: INote[];
